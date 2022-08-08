@@ -2,7 +2,7 @@ import streamlit
 import pandas
 import requests
 import snowflake.connector
-from urllib import URLError
+from urllib.error import URLError
 
 streamlit.title('Healthy Dinner')
 streamlit.header('Breakfast Favorites')
@@ -50,7 +50,11 @@ streamlit.stop()
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
 my_cur.execute("insert into fruit_load_list values ('from Streamlit')")
-my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
-my_data_row = my_cur.fetchone()
-streamlit.text("Hello from Snowflake:")
+my_cur.execute("SELECT * FROM fruit_load_list")
+my_data_row = my_cur.fetchall()
+streamlit.text("The fruitload list contains:")
 streamlit.text(my_data_row)
+# my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+# my_data_row = my_cur.fetchone()
+# streamlit.text("Hello from Snowflake:")
+# streamlit.text(my_data_row)
